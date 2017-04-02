@@ -1,0 +1,43 @@
+/* Card */
+.card-container {
+   position: relative;
+   perspective: 20px;
+   perspective-origin: var(--perspectiveOriginX, 50%)
+                       var(--perspectiveOriginY, 50%);
+}
+
+.card {
+   transform: translateZ(var(--translateZ, 0px))
+              rotateX(var(--rotateX, 0deg))
+              rotateY(var(--rotateY, 0deg));
+}
+
+.card-active-media-container {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   opacity: var(--opacity, 0);
+   box-shadow: 0 0 20px rgba(0, 0, 0, .6);
+}
+
+.card-active-media {
+   width: 100%;
+}
+
+.card-img {
+   position: relative;
+}
+
+.card-img-3-2 {
+   padding-bottom: 58.8%;
+}
+
+.card-img img {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+}

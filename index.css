@@ -1,0 +1,117 @@
+/* Reset */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; } /* HTML5 display-role reset for older browsers */ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; } body { line-height: 1; } ol, ul { list-style: none; } blockquote, q { quotes: none; } blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; } table { border-collapse: collapse; border-spacing: 0; } * { box-sizing: border-box; } h1, h2, h3, h4, h5, h6, p { display: inline } a { text-decoration: none }
+
+/* Typography */
+.text {
+   color: #F4F4F4;
+   font-family: 'Work Sans', sans-serif;
+   text-decoration: none;
+   font-size: 20px;
+   letter-spacing: -0.1px;
+   font-weight: 600;
+}
+
+.text:not(a) {
+   cursor: default;
+}
+
+.text-large {
+   font-size: 30px;
+}
+
+.text-compress {
+   letter-spacing: -1.0px;
+}
+
+.text-small1 {
+   font-size: 18px;
+}
+
+.text-small2 {
+   font-size: 15px;
+}
+
+.text-hoverwhite:hover {
+   color: #F4F4F4;
+}
+
+.text-gray {
+   color: #545555;
+}
+
+.text-thin {
+   font-weight: 500;
+}
+
+.text-bold {
+   font-weight: 700;
+}
+
+*::selection {
+   background: #0c0d0e;
+}
+
+/* Layout */
+body {
+   background: #171819;
+}
+
+.layout-page {
+   max-width: 800px;
+   margin: 0 auto;
+   padding: 0 13px;
+   cursor: default;
+}
+
+.layout-offleft-1 {
+   margin-left: 8px;
+}
+
+.layout-offleft-2 {
+   margin-left: 16px;
+}
+
+.layout-offtop-1 {
+   margin-top: 4px;
+}
+
+.layout-offtop-2 {
+   margin-top: 8px;
+}
+
+.layout-offtop-3 {
+   margin-top: 11px;
+}
+
+.layout-offtop-4 {
+   margin-top: 100px;
+}
+
+.layout-offbottom-1 {
+   margin-bottom: 4px;
+}
+
+.layout-offbottom-2 {
+   margin-bottom: 8px;
+}
+
+.layout-offbottom-3 {
+   margin-bottom: 11px;
+}
+
+.layout-offbottom-4 {
+   margin-bottom: 100px;
+}
+
+.layout-center {
+   text-align: center;
+}
+
+.media {
+   width: 100%;
+   background: #0c0d0e;
+}
+
+video {
+   width: 100%;
+}
