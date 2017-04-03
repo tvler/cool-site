@@ -21,6 +21,9 @@ function Card(el) {
    var cardAnimateFromStyle = getCardInitialStyle()
    var cardAnimateFromTime = null
    var cardIsPointerdown = false
+   var cardSpritesheetRows = getCardElement().dataset.spritesheetRows
+   var cardSpritesheetColumns = getCardElement().dataset.spritesheetColumns
+   var cardSpritesheetFrames = getCardElement().dataset.spritesheetFrames
 
    // Getters and setters
 
@@ -55,6 +58,12 @@ function Card(el) {
    function getCardIsPointerdown() { return cardIsPointerdown }
    function setCardIsPointerdown(boolean) { cardIsPointerdown = boolean }
 
+   function getCardSpritesheetRows() { return cardSpritesheetRows }
+
+   function getCardSpritesheetColumns() { return cardSpritesheetColumns }
+
+   function getCardSpritesheetFrames() { return cardSpritesheetFrames }
+
    // Functions
 
    function getCardStyleWithPointer(t) {
@@ -62,11 +71,33 @@ function Card(el) {
       var amountFromLeft = (dampenedPointer.clientX - getCardElementRect().left) / getCardElementRect().width
       var amountFromTop = (dampenedPointer.clientY - getCardElementRect().top) / getCardElementRect().height
 
+      var currentFrame = Math.min(
+         Math.max(Math.round(getCardSpritesheetFrames() * (1 - amountFromTop)), 0),
+         getCardSpritesheetFrames() - 1
+      )
+
+      var getCurrentSpritePositionX = function() {
+         return (currentFrame % getCardSpritesheetColumns()) * 100 / getCardSpritesheetColumns();
+      };
+
+      var getCurrentSpritePositionY = function() {
+         return Math.floor(currentFrame / getCardSpritesheetColumns()) * 100 / getCardSpritesheetRows();
+      };
+
+      var getAnimationCssString = function() {
+         return 'translateX(-' + getCurrentSpritePositionX() + '%) translateY(-'
+          + getCurrentSpritePositionY() +'%)';
+      };
+
+      console.log(getAnimationCssString())
+
       return getCardStyle().set({
          perspectiveOriginX: amountFromLeft * 100,
          perspectiveOriginY: amountFromTop * 100,
          rotateX: (2 * amountFromTop - 1) * getCardRotateDampener(),
-         rotateY: -1 * (2 * amountFromLeft - 1) * getCardRotateDampener()
+         rotateY: -1 * (2 * amountFromLeft - 1) * getCardRotateDampener(),
+         spritesheetTranslateX: -getCurrentSpritePositionX(),
+         spritesheetTranslateY: -getCurrentSpritePositionY()
       })
    }
 
@@ -157,7 +188,5 @@ function Card(el) {
 
    // Public object
 
-   return {
-
-   }
+   return {}
 }

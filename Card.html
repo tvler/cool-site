@@ -1,11 +1,19 @@
-<div class="card-container">
+<div class="card-container"
+ data-spritesheet-rows="{{ include.rows }}"
+ data-spritesheet-columns="{{ include.columns }}"
+ data-spritesheet-frames="{{ include.frames }}"
+ >
    <div class="card" style="padding-bottom: {{ include.aspect }};">
       <figure class="card-inactive-container">
          <img src="image/{{ include.media }}/000.png">
       </figure>
 
       <figure class="card-active-container">
-         <img src="image/{{ include.media }}/grid.jpg">
+         <img src="image/{{ include.media }}/grid.jpg"
+          style="
+            width: {{ include.columns | times: 100 }}%;
+            height: {{ include.rows | times: 100 }}%;
+          ">
       </figure>
    </div>
 </div>

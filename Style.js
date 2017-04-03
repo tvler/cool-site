@@ -8,7 +8,9 @@ function Style(s) {
       rotateX: 0,
       rotateY: 0,
       translateZ: 0,
-      opacity: 0
+      opacity: 0,
+      spritesheetTranslateX: 0,
+      spritesheetTranslateY: 0
    }, s)
 
    var units = {
@@ -17,7 +19,9 @@ function Style(s) {
       rotateX: 'deg',
       rotateY: 'deg',
       translateZ: 'px',
-      opacity: ''
+      opacity: '',
+      spritesheetTranslateX: '%',
+      spritesheetTranslateY: '%'
    }
 
    // Functions
