@@ -9,8 +9,7 @@ function Style(s) {
       rotateY: 0,
       translateZ: 0,
       opacity: 0,
-      spritesheetTranslateX: 0,
-      spritesheetTranslateY: 0
+      frame: 0
    }, s)
 
    var units = {
@@ -20,8 +19,9 @@ function Style(s) {
       rotateY: 'deg',
       translateZ: 'px',
       opacity: '',
-      spritesheetTranslateX: '%',
-      spritesheetTranslateY: '%'
+      frame: '',
+      frameTranslateX: '%',
+      frameTranslateY: '%'
    }
 
    // Functions
@@ -38,9 +38,9 @@ function Style(s) {
       var value = null
       var returnStyle = new Style()
 
-      for (rule in style) {
+      for (var rule in style) {
          value = s.style[rule]
-         returnStyle.style[rule] = style[rule] + value
+         returnStyle.style[rule] = typeof style[rule] === 'function' ? style[rule] : style[rule] + value
       }
 
       return returnStyle
@@ -53,8 +53,8 @@ function Style(s) {
    function times(value) {
       var returnStyle = new Style()
 
-      for (rule in style) {
-         returnStyle.style[rule] = style[rule] * value
+      for (var rule in style) {
+         returnStyle.style[rule] = typeof style[rule] === 'function' ? style[rule] : style[rule] * value
       }
 
       return returnStyle
@@ -65,8 +65,8 @@ function Style(s) {
       var value = null
       var unit = null
 
-      for (rule in style) {
-         value = style[rule]
+      for (var rule in style) {
+         value = typeof style[rule] === 'function' ? style[rule].call(this) : style[rule]
          unit = units[rule]
          cssText += `--${rule}: ${value}${unit};`
       }

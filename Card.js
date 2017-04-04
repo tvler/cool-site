@@ -12,12 +12,19 @@ function Card(el) {
       rotateX: 0,
       rotateY: 0,
       translateZ: 0,
-      opacity: 0
+      opacity: 0,
+      frame: 0,
+      frameTranslateX: function() {
+         return -((Math.round(this.style.frame) % getCardSpritesheetColumns()) * 100 / getCardSpritesheetColumns())
+      },
+      frameTranslateY: function() {
+         return -(Math.floor(Math.round(this.style.frame) / getCardSpritesheetColumns()) * 100 / getCardSpritesheetRows())
+      }
    })
    var cardStyle = getCardInitialStyle()
    var cardRenderStyle = getCardInitialStyle()
    var cardAnimating = false
-   var cardAnimateDuration = 200
+   var cardAnimateDuration = 300
    var cardAnimateFromStyle = getCardInitialStyle()
    var cardAnimateFromTime = null
    var cardIsPointerdown = false
@@ -71,33 +78,17 @@ function Card(el) {
       var amountFromLeft = (dampenedPointer.clientX - getCardElementRect().left) / getCardElementRect().width
       var amountFromTop = (dampenedPointer.clientY - getCardElementRect().top) / getCardElementRect().height
 
-      var currentFrame = Math.min(
-         Math.max(Math.round(getCardSpritesheetFrames() * (1 - amountFromTop)), 0),
+      var frame = Math.min(
+         Math.max(getCardSpritesheetFrames() * (1 - amountFromTop), 0),
          getCardSpritesheetFrames() - 1
       )
-
-      var getCurrentSpritePositionX = function() {
-         return (currentFrame % getCardSpritesheetColumns()) * 100 / getCardSpritesheetColumns();
-      };
-
-      var getCurrentSpritePositionY = function() {
-         return Math.floor(currentFrame / getCardSpritesheetColumns()) * 100 / getCardSpritesheetRows();
-      };
-
-      var getAnimationCssString = function() {
-         return 'translateX(-' + getCurrentSpritePositionX() + '%) translateY(-'
-          + getCurrentSpritePositionY() +'%)';
-      };
-
-      console.log(getAnimationCssString())
 
       return getCardStyle().set({
          perspectiveOriginX: amountFromLeft * 100,
          perspectiveOriginY: amountFromTop * 100,
          rotateX: (2 * amountFromTop - 1) * getCardRotateDampener(),
          rotateY: -1 * (2 * amountFromLeft - 1) * getCardRotateDampener(),
-         spritesheetTranslateX: -getCurrentSpritePositionX(),
-         spritesheetTranslateY: -getCurrentSpritePositionY()
+         frame: frame
       })
    }
 

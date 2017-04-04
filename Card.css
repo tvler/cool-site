@@ -38,6 +38,6 @@
 }
 
 .card-active-container img {
-   transform: translateX(var(--spritesheetTranslateX, 0%))
-              translateY(var(--spritesheetTranslateY, 0%));
+   transform: translateX(var(--frameTranslateX, 0%))
+              translateY(var(--frameTranslateY, 0%));
 }
