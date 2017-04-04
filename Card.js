@@ -103,11 +103,11 @@ function Card(el) {
    }
 
    function cardAnimateLoop() {
-      requestAnimationFrame(function(t) {
+      requestAnimationFrame(function() {
          var fromStyle = getCardAnimateFromStyle()
          var fromTime = getCardAnimateFromTime()
          var duration = getCardAnimateDuration()
-         var currentTime = Math.min(t, fromTime + duration)
+         var currentTime = Math.min(performance.now(), fromTime + duration)
          var amountCompleted = (currentTime - fromTime) / duration
 
          setCardRenderStyle(getCardStyle()
