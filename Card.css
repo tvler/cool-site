@@ -2,7 +2,7 @@
 
 .card-container {
    position: relative;
-   perspective: 20px;
+   perspective: var(--perspective, none);
    perspective-origin: var(--perspectiveOriginX, 50%)
                        var(--perspectiveOriginY, 50%);
 }

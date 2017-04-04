@@ -14,6 +14,7 @@ function Card(el) {
       translateZ: 0,
       opacity: 0,
       frame: 0,
+      perspective: getPerspectiveComputedValue,
       opacityCeil: getOpacityCeilComputedValue,
       frameTranslateX: getFrameTranslateXComputedValue,
       frameTranslateY: getFrameTranslateYComputedValue
@@ -85,6 +86,10 @@ function Card(el) {
          rotateY: -1 * (2 * amountFromLeft - 1) * getCardRotateDampener(),
          frame: frame
       })
+   }
+
+   function getPerspectiveComputedValue(style) {
+      return getCardElementRect().width / 35
    }
 
    function getFrameTranslateXComputedValue(style) {

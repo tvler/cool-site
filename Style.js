@@ -3,6 +3,7 @@ function Style(s) {
    // Variables
 
    var style = Object.assign({}, {
+      perspective: 0,
       perspectiveOriginX: 0,
       perspectiveOriginY: 0,
       rotateX: 0,
@@ -13,6 +14,7 @@ function Style(s) {
    }, s)
 
    var units = {
+      perspective: 'px',
       perspectiveOriginX: '%',
       perspectiveOriginY: '%',
       rotateX: 'deg',
