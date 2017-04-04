@@ -21,7 +21,8 @@ function Style(s) {
       opacity: '',
       frame: '',
       frameTranslateX: '%',
-      frameTranslateY: '%'
+      frameTranslateY: '%',
+      opacityCeil: ''
    }
 
    // Functions
@@ -66,7 +67,7 @@ function Style(s) {
       var unit = null
 
       for (var rule in style) {
-         value = typeof style[rule] === 'function' ? style[rule].call(this) : style[rule]
+         value = typeof style[rule] === 'function' ? style[rule](style) : style[rule]
          unit = units[rule]
          cssText += `--${rule}: ${value}${unit};`
       }

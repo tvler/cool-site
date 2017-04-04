@@ -14,17 +14,14 @@ function Card(el) {
       translateZ: 0,
       opacity: 0,
       frame: 0,
-      frameTranslateX: function() {
-         return -((Math.round(this.style.frame) % getCardSpritesheetColumns()) * 100 / getCardSpritesheetColumns())
-      },
-      frameTranslateY: function() {
-         return -(Math.floor(Math.round(this.style.frame) / getCardSpritesheetColumns()) * 100 / getCardSpritesheetRows())
-      }
+      opacityCeil: getOpacityCeilComputedValue,
+      frameTranslateX: getFrameTranslateXComputedValue,
+      frameTranslateY: getFrameTranslateYComputedValue
    })
    var cardStyle = getCardInitialStyle()
    var cardRenderStyle = getCardInitialStyle()
    var cardAnimating = false
-   var cardAnimateDuration = 300
+   var cardAnimateDuration = 250
    var cardAnimateFromStyle = getCardInitialStyle()
    var cardAnimateFromTime = null
    var cardIsPointerdown = false
@@ -71,8 +68,6 @@ function Card(el) {
 
    function getCardSpritesheetFrames() { return cardSpritesheetFrames }
 
-   // Functions
-
    function getCardStyleWithPointer(t) {
       var dampenedPointer = t.dampen(getCardElementRect())
       var amountFromLeft = (dampenedPointer.clientX - getCardElementRect().left) / getCardElementRect().width
@@ -91,6 +86,20 @@ function Card(el) {
          frame: frame
       })
    }
+
+   function getFrameTranslateXComputedValue(style) {
+      return -((Math.round(style.frame) % getCardSpritesheetColumns()) * 100 / getCardSpritesheetColumns())
+   }
+
+   function getFrameTranslateYComputedValue(style) {
+      return -(Math.floor(Math.round(style.frame) / getCardSpritesheetColumns()) * 100 / getCardSpritesheetRows())
+   }
+
+   function getOpacityCeilComputedValue(style) {
+      return Math.ceil(style.opacity)
+   }
+
+   // Functions
 
    function cardAnimate() {
       setCardAnimateFromTime(performance.now())
