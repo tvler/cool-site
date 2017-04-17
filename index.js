@@ -1,3 +1,8 @@
+---
+---
+
+{% include_relative Card.js %}
+
 document.querySelectorAll('a').forEach(function(a) {
    a.addEventListener('touchstart', function(){})
 })
