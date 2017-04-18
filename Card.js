@@ -1,7 +1,7 @@
-{% include_relative Pointer.js %}
-{% include_relative Style.js %}
-
 function Card(el) {
+
+   {% include_relative Pointer.js %}
+   {% include_relative Style.js %}
 
    // Variables
 

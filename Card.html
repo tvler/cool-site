@@ -5,15 +5,19 @@
  >
    <div class="card" style="padding-bottom: {{ include.aspect }};">
       <figure class="card-inactive-container">
-         <img src="image/{{ include.media }}/000.png">
+         <noscript class="lazyload">
+            <img src="image/{{ include.media }}/000.png">
+         </noscript>
       </figure>
 
       <figure class="card-active-container">
-         <img src="image/{{ include.media }}/grid.jpg"
-          style="
-            width: {{ include.columns | times: 100 }}%;
-            height: {{ include.rows | times: 100 }}%;
-          ">
+         <noscript class="lazyload">
+            <img src="image/{{ include.media }}/grid.jpg"
+             style="
+               width: {{ include.columns | times: 100 }}%;
+               height: {{ include.rows | times: 100 }}%;
+             ">
+         </noscript>
       </figure>
    </div>
 </div>
