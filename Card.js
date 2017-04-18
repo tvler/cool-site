@@ -1,12 +1,15 @@
 function Card(el) {
 
+   {% include_relative submodule/lazy-progressive-enhancement/lazy-progressive-enhancement.min.js %}
    {% include_relative Pointer.js %}
    {% include_relative Style.js %}
 
    // Variables
 
    var cardElement = el
-   var cardElementStyle = getCardElement().style
+   var cardElementImageInactive = getCardElement().querySelector('.card-inactive-container .lazyload')
+   var cardElementImageActive = getCardElement().querySelector('.card-active-container .lazyload')
+   var cardElementStyleNode = getCardElement().style
    var cardRotateDampener = 0.05
    var cardElementRect = null
    var cardInitialStyle = new Style({
@@ -37,7 +40,11 @@ function Card(el) {
 
    function getCardElement() { return cardElement }
 
-   function getCardElementStyle() { return cardElementStyle }
+   function getCardElementImageInactive() { return cardElementImageInactive }
+
+   function getCardElementImageActive() { return cardElementImageActive }
+
+   function getCardElementStyleNode() { return cardElementStyleNode }
 
    function getCardRotateDampener() { return cardRotateDampener }
 
@@ -143,7 +150,7 @@ function Card(el) {
    }
 
    function cardRender() {
-      getCardElementStyle().cssText = getCardRenderStyle().getCssText()
+      getCardElementStyleNode().cssText = getCardRenderStyle().getCssText()
    }
 
    function cardSetPointer(t) {
@@ -193,6 +200,11 @@ function Card(el) {
    getCardElement().addEventListener('touchmove', cardPointermove)
    getCardElement().addEventListener('touchend', cardPointerup)
    window.addEventListener('mouseup', cardPointerup)
+
+   // Load images on initialization
+
+   loadMedia(getCardElementImageInactive())
+   loadMedia(getCardElementImageActive())
 
    // Public object
 
