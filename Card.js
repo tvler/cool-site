@@ -190,8 +190,10 @@ function Card(el) {
    }
 
    function cardPointerup(ev) {
-      setCardIsPointerdown(false)
-      cardDeactivate()
+      if (getCardIsPointerdown()) {
+         setCardIsPointerdown(false)
+         cardDeactivate()
+      }
    }
 
    getCardElement().addEventListener('touchstart', cardPointerdown)
