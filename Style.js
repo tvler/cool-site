@@ -10,18 +10,6 @@ function Style(s) {
       stateAnimated: 0
    }, s)
 
-   var units = {
-      perspective: 'px',
-      opacity: '',
-      frame: '',
-      frameTranslateX: '%',
-      frameTranslateY: '%',
-      pointerX: '',
-      pointerY: '',
-      stateAnimated: '',
-      state: ''
-   }
-
    // Functions
 
    function clone() {
@@ -61,12 +49,10 @@ function Style(s) {
    function getCssText() {
       var cssText = ``
       var value = null
-      var unit = null
 
       for (var rule in style) {
          value = typeof style[rule] === 'function' ? style[rule](style) : style[rule]
-         unit = units[rule]
-         cssText += `--${rule}: ${value}${unit};`
+         cssText += `--${rule}: ${value};`
       }
 
       return cssText

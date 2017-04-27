@@ -1,6 +1,6 @@
 .card-container {
    position: relative;
-   perspective: var(--perspective, none);
+   perspective: calc(var(--perspective) * 1px);
    perspective-origin: calc(var(--pointerX) * 100 * 1%)
                        calc(var(--pointerY) * 100 * 1%);
 }
@@ -37,6 +37,6 @@
 }
 
 .card-image-active img {
-   transform: translateX(var(--frameTranslateX, 0%))
-              translateY(var(--frameTranslateY, 0%));
+   transform: translateX(calc(var(--frameTranslateX) * 1%))
+              translateY(calc(var(--frameTranslateY) * 1%));
 }
