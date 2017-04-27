@@ -52,6 +52,8 @@ function Style(s) {
       return cssText
    }
 
+   // Public object
+
    return {
       style: style,
       clone: clone,

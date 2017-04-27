@@ -18,10 +18,10 @@ function Card(el) {
       stateAnimated: 0,
       pointerX: .5,
       pointerY: .5,
-      perspective: getPerspectiveComputedValue,
-      frameTranslateX: getFrameTranslateXComputedValue,
-      frameTranslateY: getFrameTranslateYComputedValue,
-      state: getStateComputedValue
+      perspective: getCardStylePerspective,
+      frameTranslateX: getCardStyleFrameTranslateX,
+      frameTranslateY: getCardStyleFrameTranslateY,
+      state: getCardStyleState
    })
    var cardStyle = getCardInitialStyle()
    var cardRenderStyle = getCardInitialStyle()
@@ -75,8 +75,8 @@ function Card(el) {
 
    function getCardSpritesheetFrames() { return cardSpritesheetFrames }
 
-   function getCardStyleWithPointer(t) {
-      var dampenedPointer = t.dampen(getCardElementRect())
+   function getCardStyleWithPointer(p) {
+      var dampenedPointer = p.dampen(getCardElementRect())
       var amountFromLeft = (dampenedPointer.clientX - getCardElementRect().left) / getCardElementRect().width
       var amountFromTop = (dampenedPointer.clientY - getCardElementRect().top) / getCardElementRect().height
 
@@ -92,19 +92,19 @@ function Card(el) {
       })
    }
 
-   function getPerspectiveComputedValue(style) {
+   function getCardStylePerspective(style) {
       return getCardElementRect().width / 35
    }
 
-   function getFrameTranslateXComputedValue(style) {
+   function getCardStyleFrameTranslateX(style) {
       return -((Math.round(style.frame) % getCardSpritesheetColumns()) * 100 / getCardSpritesheetColumns())
    }
 
-   function getFrameTranslateYComputedValue(style) {
+   function getCardStyleFrameTranslateY(style) {
       return -(Math.floor(Math.round(style.frame) / getCardSpritesheetColumns()) * 100 / getCardSpritesheetRows())
    }
 
-   function getStateComputedValue(style) {
+   function getCardStyleState(style) {
       return Math.ceil(style.stateAnimated)
    }
 
