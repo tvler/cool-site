@@ -2,13 +2,7 @@ function Style(s) {
 
    // Variables
 
-   var style = Object.assign({}, {
-      perspective: 0,
-      frame: 0,
-      pointerX: .5,
-      pointerY: .5,
-      stateAnimated: 0
-   }, s)
+   var style = Object.assign({}, s)
 
    // Functions
 
