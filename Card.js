@@ -7,8 +7,8 @@ function Card(el) {
    // Variables
 
    var cardElement = el
-   var cardElementImageInactive = getCardElement().querySelector('.card-inactive-container .lazyload')
-   var cardElementImageActive = getCardElement().querySelector('.card-active-container .lazyload')
+   var cardElementImageInactive = getCardElement().querySelector('.card-image-inactive .lazyload')
+   var cardElementImageActive = getCardElement().querySelector('.card-image-active .lazyload')
    var cardElementStyleNode = getCardElement().style
    var cardRotateDampener = 0.05
    var cardElementRect = null
