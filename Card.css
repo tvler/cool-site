@@ -1,14 +1,15 @@
 .card-container {
    position: relative;
    perspective: var(--perspective, none);
-   perspective-origin: var(--perspectiveOriginX, 50%)
-                       var(--perspectiveOriginY, 50%);
+   perspective-origin: calc(var(--pointerX) * 100 * 1%)
+                       calc(var(--pointerY) * 100 * 1%);
 }
 
 .card {
+   --rotate-dampener: 0.05;
    transform: translateZ(var(--translateZ, 0px))
-              rotateX(var(--rotateX, 0deg))
-              rotateY(var(--rotateY, 0deg));
+              rotateX(calc((2 * var(--pointerY) - 1) * var(--rotate-dampener) * 1deg))
+              rotateY(calc((1 - 2 * var(--pointerX)) * var(--rotate-dampener) * 1deg));
 }
 
 .card-image {

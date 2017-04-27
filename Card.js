@@ -1,5 +1,7 @@
 function Card(el) {
 
+   'use strict'
+
    {% include_relative submodule/lazy-progressive-enhancement/lazy-progressive-enhancement.min.js %}
    {% include_relative Pointer.js %}
    {% include_relative Style.js %}
@@ -10,16 +12,13 @@ function Card(el) {
    var cardElementImageInactive = getCardElement().querySelector('.card-image-inactive .lazyload')
    var cardElementImageActive = getCardElement().querySelector('.card-image-active .lazyload')
    var cardElementStyleNode = getCardElement().style
-   var cardRotateDampener = 0.05
    var cardElementRect = null
    var cardInitialStyle = new Style({
-      perspectiveOriginX: 50,
-      perspectiveOriginY: 50,
-      rotateX: 0,
-      rotateY: 0,
       translateZ: 0,
       opacity: 0,
       frame: 0,
+      pointerX: .5,
+      pointerY: .5,
       perspective: getPerspectiveComputedValue,
       opacityCeil: getOpacityCeilComputedValue,
       frameTranslateX: getFrameTranslateXComputedValue,
@@ -45,8 +44,6 @@ function Card(el) {
    function getCardElementImageActive() { return cardElementImageActive }
 
    function getCardElementStyleNode() { return cardElementStyleNode }
-
-   function getCardRotateDampener() { return cardRotateDampener }
 
    function getCardElementRect() { return cardElementRect }
    function setCardElementRect(rect) { cardElementRect = rect }
@@ -90,10 +87,8 @@ function Card(el) {
       )
 
       return getCardStyle().set({
-         perspectiveOriginX: amountFromLeft * 100,
-         perspectiveOriginY: amountFromTop * 100,
-         rotateX: (2 * amountFromTop - 1) * getCardRotateDampener(),
-         rotateY: -1 * (2 * amountFromLeft - 1) * getCardRotateDampener(),
+         pointerX: amountFromLeft,
+         pointerY: amountFromTop,
          frame: frame
       })
    }

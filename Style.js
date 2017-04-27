@@ -4,27 +4,23 @@ function Style(s) {
 
    var style = Object.assign({}, {
       perspective: 0,
-      perspectiveOriginX: 0,
-      perspectiveOriginY: 0,
-      rotateX: 0,
-      rotateY: 0,
       translateZ: 0,
       opacity: 0,
-      frame: 0
+      frame: 0,
+      pointerX: .5,
+      pointerY: .5
    }, s)
 
    var units = {
       perspective: 'px',
-      perspectiveOriginX: '%',
-      perspectiveOriginY: '%',
-      rotateX: 'deg',
-      rotateY: 'deg',
       translateZ: 'px',
       opacity: '',
       frame: '',
       frameTranslateX: '%',
       frameTranslateY: '%',
-      opacityCeil: ''
+      opacityCeil: '',
+      pointerX: '',
+      pointerY: ''
    }
 
    // Functions
