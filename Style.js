@@ -4,23 +4,22 @@ function Style(s) {
 
    var style = Object.assign({}, {
       perspective: 0,
-      translateZ: 0,
-      opacity: 0,
       frame: 0,
       pointerX: .5,
-      pointerY: .5
+      pointerY: .5,
+      stateAnimated: 0
    }, s)
 
    var units = {
       perspective: 'px',
-      translateZ: 'px',
       opacity: '',
       frame: '',
       frameTranslateX: '%',
       frameTranslateY: '%',
-      opacityCeil: '',
       pointerX: '',
-      pointerY: ''
+      pointerY: '',
+      stateAnimated: '',
+      state: ''
    }
 
    // Functions

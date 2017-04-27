@@ -7,7 +7,7 @@
 
 .card {
    --rotate-dampener: 0.05;
-   transform: translateZ(var(--translateZ, 0px))
+   transform: translateZ(calc(var(--stateAnimated) * 1px))
               rotateX(calc((2 * var(--pointerY) - 1) * var(--rotate-dampener) * 1deg))
               rotateY(calc((1 - 2 * var(--pointerX)) * var(--rotate-dampener) * 1deg));
 }
@@ -33,7 +33,7 @@
 .card-image-active {
    box-shadow: 0 0 20px rgba(0, 0, 0, .6);
    contain: strict;
-   opacity: var(--opacityCeil, 0.001);
+   opacity: var(--state, 0.001);
 }
 
 .card-image-active img {

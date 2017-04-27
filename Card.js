@@ -14,15 +14,14 @@ function Card(el) {
    var cardElementStyleNode = getCardElement().style
    var cardElementRect = null
    var cardInitialStyle = new Style({
-      translateZ: 0,
-      opacity: 0,
       frame: 0,
+      stateAnimated: 0,
       pointerX: .5,
       pointerY: .5,
       perspective: getPerspectiveComputedValue,
-      opacityCeil: getOpacityCeilComputedValue,
       frameTranslateX: getFrameTranslateXComputedValue,
-      frameTranslateY: getFrameTranslateYComputedValue
+      frameTranslateY: getFrameTranslateYComputedValue,
+      state: getStateComputedValue
    })
    var cardStyle = getCardInitialStyle()
    var cardRenderStyle = getCardInitialStyle()
@@ -105,8 +104,8 @@ function Card(el) {
       return -(Math.floor(Math.round(style.frame) / getCardSpritesheetColumns()) * 100 / getCardSpritesheetRows())
    }
 
-   function getOpacityCeilComputedValue(style) {
-      return Math.ceil(style.opacity)
+   function getStateComputedValue(style) {
+      return Math.ceil(style.stateAnimated)
    }
 
    // Functions
@@ -159,7 +158,7 @@ function Card(el) {
 
    function cardActivate() {
       setCardElementRect(getCardElement().getBoundingClientRect())
-      setCardStyle(getCardStyle().set({translateZ: 1, opacity: 1}))
+      setCardStyle(getCardStyle().set({stateAnimated: 1}))
       cardAnimate()
    }
 
