@@ -1,0 +1,3 @@
+[submodule "submodule/lazy-progressive-enhancement"]
+	path = submodule/lazy-progressive-enhancement
+	url = https://github.com/tvler/lazy-progressive-enhancement.git
