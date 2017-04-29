@@ -6,10 +6,10 @@
 }
 
 .card {
-   --rotate-dampener: 0.05;
+   --rotate-dampener: 0.1;
    transform: translateZ(calc(var(--stateAnimated) * 1px))
-              rotateX(calc((2 * var(--pointerY) - 1) * var(--rotate-dampener) * 1deg))
-              rotateY(calc((1 - 2 * var(--pointerX)) * var(--rotate-dampener) * 1deg));
+              rotateX(calc((var(--pointerY) - 0.5) * var(--rotate-dampener) * 1deg))
+              rotateY(calc((0.5 - var(--pointerX)) * var(--rotate-dampener) * 1deg));
 }
 
 .card-image {
@@ -37,6 +37,6 @@
 }
 
 .card-image-active img {
-   transform: translateX(calc(var(--frameTranslateX) * 1%))
-              translateY(calc(var(--frameTranslateY) * 1%));
+   transform: translate(calc(var(--frameTranslateX) * 1%),
+                        calc(var(--frameTranslateY) * 1%));
 }
