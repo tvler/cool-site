@@ -14,8 +14,8 @@
          <noscript class="lazyload">
             <img src="image/{{ include.media }}/grid.jpg"
              style="
-               width: {{ include.columns | times: 100 }}%;
-               height: {{ include.rows | times: 100 }}%;
+               --columns: {{ include.columns }};
+               --rows: {{ include.rows }};
              ">
          </noscript>
       </figure>
