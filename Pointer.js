@@ -46,6 +46,10 @@ function Pointer(x, y) {
 // Static
 
 Pointer.getPointerFromMouseOrPointerEvent = function(ev) {
-   var pointer = ev instanceof MouseEvent ? ev : ev.touches[0]
+   var pointer = Pointer.isEventMouseEvent(ev) ? ev : ev.touches[0]
    return new Pointer(pointer.clientX, pointer.clientY)
+}
+
+Pointer.isEventMouseEvent = function(ev) {
+   return ev instanceof MouseEvent
 }

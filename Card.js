@@ -31,6 +31,7 @@ function Card(el) {
    var cardAnimateFromTime = null
    var cardIsPointerdown = false
    var cardPointerdownlongTimeout = 0
+   var cardPointerdownlongTimeoutDuration = 150
    var cardSpritesheetRows = getCardElement().dataset.spritesheetRows
    var cardSpritesheetColumns = getCardElement().dataset.spritesheetColumns
    var cardSpritesheetFrames = getCardElement().dataset.spritesheetFrames
@@ -72,6 +73,8 @@ function Card(el) {
 
    function getCardPointerdownlongTimeout() { return cardPointerdownlongTimeout }
    function setCardPointerdownlongTimeout(int) { cardPointerdownlongTimeout = int }
+
+   function getCardPointerdownlongTimeoutDuration() { return cardPointerdownlongTimeoutDuration }
 
    function getCardSpritesheetRows() { return cardSpritesheetRows }
 
@@ -184,12 +187,16 @@ function Card(el) {
    function cardPointerdown(ev) {
       clearTimeout(getCardPointerdownlongTimeout())
 
+      if (Pointer.isEventMouseEvent(ev)) {
+         ev.preventDefault()
+      }
+
       setCardPointerdownlongTimeout(setTimeout(function() {
          ev.preventDefault()
          setCardIsPointerdown(true)
          cardActivate()
          cardSetPointer(Pointer.getPointerFromMouseOrPointerEvent(ev))
-      }, 100))
+      }, getCardPointerdownlongTimeoutDuration()))
    }
 
    function cardPointermove(ev) {
