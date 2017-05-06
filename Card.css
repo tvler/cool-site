@@ -9,6 +9,18 @@
                        calc(var(--pointerY) * 100 * 1%);
 }
 
+.card-container:hover .card {
+   will-change: transform;
+}
+
+.card-container:hover .card-image-active {
+   will-change: opacity;
+}
+
+.card-container:hover .card-image-active img {
+   will-change: transform;
+}
+
 .card {
    --rotate-dampener: 0.1;
    pointer-events: none;
