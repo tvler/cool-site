@@ -18,7 +18,7 @@ function Card(el) {
       stateAnimated: 0,
       pointerX: .5,
       pointerY: .5,
-      perspective: getCardStylePerspective,
+      width: getCardStyleWidth,
       frameTranslateX: getCardStyleFrameTranslateX,
       frameTranslateY: getCardStyleFrameTranslateY,
       state: getCardStyleState
@@ -30,6 +30,7 @@ function Card(el) {
    var cardAnimateFromStyle = getCardInitialStyle()
    var cardAnimateFromTime = null
    var cardIsPointerdown = false
+   var cardPointerdownlongTimeout = 0
    var cardSpritesheetRows = getCardElement().dataset.spritesheetRows
    var cardSpritesheetColumns = getCardElement().dataset.spritesheetColumns
    var cardSpritesheetFrames = getCardElement().dataset.spritesheetFrames
@@ -69,6 +70,9 @@ function Card(el) {
    function getCardIsPointerdown() { return cardIsPointerdown }
    function setCardIsPointerdown(boolean) { cardIsPointerdown = boolean }
 
+   function getCardPointerdownlongTimeout() { return cardPointerdownlongTimeout }
+   function setCardPointerdownlongTimeout(int) { cardPointerdownlongTimeout = int }
+
    function getCardSpritesheetRows() { return cardSpritesheetRows }
 
    function getCardSpritesheetColumns() { return cardSpritesheetColumns }
@@ -92,8 +96,8 @@ function Card(el) {
       })
    }
 
-   function getCardStylePerspective(style) {
-      return getCardElementRect().width / 35
+   function getCardStyleWidth(style) {
+      return getCardElementRect().width
    }
 
    function getCardStyleFrameTranslateX(style) {
@@ -156,6 +160,14 @@ function Card(el) {
       }
    }
 
+   function cardInitialize() {
+      loadMedia(getCardElementImageInactive())
+      loadMedia(getCardElementImageActive())
+      getCardElement().oncontextmenu = function(ev) {
+         return false
+      }
+   }
+
    function cardActivate() {
       setCardElementRect(getCardElement().getBoundingClientRect())
       setCardStyle(getCardStyle().set({stateAnimated: 1}))
@@ -170,13 +182,19 @@ function Card(el) {
    // Listeners
 
    function cardPointerdown(ev) {
-      ev.preventDefault()
-      setCardIsPointerdown(true)
-      cardActivate()
-      cardSetPointer(Pointer.getPointerFromMouseOrPointerEvent(ev))
+      clearTimeout(getCardPointerdownlongTimeout())
+
+      setCardPointerdownlongTimeout(setTimeout(function() {
+         ev.preventDefault()
+         setCardIsPointerdown(true)
+         cardActivate()
+         cardSetPointer(Pointer.getPointerFromMouseOrPointerEvent(ev))
+      }, 100))
    }
 
    function cardPointermove(ev) {
+      clearTimeout(getCardPointerdownlongTimeout())
+
       if (getCardIsPointerdown()) {
          ev.preventDefault()
          cardSetPointer(Pointer.getPointerFromMouseOrPointerEvent(ev))
@@ -184,7 +202,10 @@ function Card(el) {
    }
 
    function cardPointerup(ev) {
+      clearTimeout(getCardPointerdownlongTimeout())
+
       if (getCardIsPointerdown()) {
+         ev.preventDefault()
          setCardIsPointerdown(false)
          cardDeactivate()
       }
@@ -197,10 +218,8 @@ function Card(el) {
    getCardElement().addEventListener('touchend', cardPointerup)
    window.addEventListener('mouseup', cardPointerup)
 
-   // Load images on initialization
-
-   loadMedia(getCardElementImageInactive())
-   loadMedia(getCardElementImageActive())
+   // Initialize
+   cardInitialize()
 
    // Public object
 

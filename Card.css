@@ -1,18 +1,24 @@
 .card-container {
+   --perspective-dampener: .03;
+   -webkit-user-select: none;
+   user-select: none;
+   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
    position: relative;
-   perspective: calc(var(--perspective) * 1px);
+   perspective: calc(var(--width) * var(--perspective-dampener) * 1px);
    perspective-origin: calc(var(--pointerX) * 100 * 1%)
                        calc(var(--pointerY) * 100 * 1%);
 }
 
 .card {
    --rotate-dampener: 0.1;
+   pointer-events: none;
    transform: translateZ(calc(var(--stateAnimated) * 1px))
               rotateX(calc((var(--pointerY) - 0.5) * var(--rotate-dampener) * 1deg))
               rotateY(calc((0.5 - var(--pointerX)) * var(--rotate-dampener) * 1deg));
 }
 
 .card-image {
+   pointer-events: none;
    position: absolute;
    top: 0;
    left: 0;
@@ -22,6 +28,7 @@
 }
 
 .card-image img {
+   pointer-events: none;
    position: absolute;
    top: -1px;
    left: -1px;
@@ -32,7 +39,7 @@
 .card-image-active {
    box-shadow: 0 0 20px rgba(0, 0, 0, .6);
    contain: strict;
-   opacity: var(--state, 0.001);
+   opacity: var(--state, 0);
 }
 
 .card-image-active img {
