@@ -69,7 +69,7 @@
 }
 
 .card-image-overlay:after {
-   --opacity-dampener: 0.95;
+   --opacity-dampener: 0.9;
    content: '';
    display: block;
    position: absolute;
@@ -77,12 +77,12 @@
    left: 0;
    width: 100%;
    height: 100%;
-   background-image: linear-gradient(to top, rgb(0, 0, 0) 37px, rgba(0,0,0,0) 40%);
+   background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 30%, rgba(0,0,0,0));
    opacity: calc((1 - var(--stateAnimated, 0)) * var(--opacity-dampener));
 }
 
 .card-image-overlay-label-mask-circle {
-   animation: card-image-overlay-label-mask-circle-slide 2.8s linear infinite;
+   animation: card-image-overlay-label-mask-circle-slide 2.8s linear 2s infinite;
 }
 
 @keyframes card-image-overlay-label-mask-circle-slide {
