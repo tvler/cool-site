@@ -9,18 +9,6 @@
                        calc(var(--pointerY) * 100 * 1%);
 }
 
-.card-container:hover .card {
-   will-change: transform;
-}
-
-.card-container:hover .card-image-active {
-   will-change: opacity;
-}
-
-.card-container:hover .card-image-active img {
-   will-change: transform;
-}
-
 .card {
    --rotate-dampener: 0.1;
    pointer-events: none;
@@ -51,7 +39,6 @@
 .card-image-active {
    box-shadow: 0 0 20px rgba(0, 0, 0, .6);
    contain: strict;
-   opacity: var(--state, 0);
 }
 
 .card-image-active img {
@@ -89,4 +76,17 @@
    to {
       transform: translateX(calc(103px + 200%));
    }
+}
+
+/* States */
+.card-container-active .card {
+   will-change: transform;
+}
+
+.card-container:not(.card-container-active) .card-image-active {
+   opacity: 0;
+}
+
+.card-container-active .card-image-active img {
+   will-change: transform;
 }

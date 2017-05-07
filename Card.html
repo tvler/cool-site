@@ -6,7 +6,11 @@
    <div class="card" style="padding-bottom: {{ include.aspect }};">
       <figure class="card-image card-image-inactive">
          <noscript class="lazyload">
-            <img src="image/{{ include.media }}/000.png">
+            <img
+             src="image/{{ include.media }}/000-2x.png"
+             srcset="image/{{ include.media }}/000-1x.png 1x,
+                     image/{{ include.media }}/000-2x.png 2x"
+            >
          </noscript>
       </figure>
 

@@ -21,7 +21,6 @@ function Card(el) {
       width: getCardStyleWidth,
       frameTranslateX: getCardStyleFrameTranslateX,
       frameTranslateY: getCardStyleFrameTranslateY,
-      state: getCardStyleState
    })
    var cardStyle = getCardInitialStyle()
    var cardRenderStyle = getCardInitialStyle()
@@ -111,10 +110,6 @@ function Card(el) {
       return -(Math.floor(Math.round(style.frame) / getCardSpritesheetColumns()) * 100 / getCardSpritesheetRows())
    }
 
-   function getCardStyleState(style) {
-      return Math.ceil(style.stateAnimated)
-   }
-
    // Functions
 
    function cardAnimate() {
@@ -171,10 +166,21 @@ function Card(el) {
       }
    }
 
-   function cardActivate() {
-      setCardElementRect(getCardElement().getBoundingClientRect())
-      setCardStyle(getCardStyle().set({stateAnimated: 1}))
-      cardAnimate()
+   function cardActivate(pointer) {
+      requestAnimationFrame(function() {
+         getCardElement().classList.add('card-container-active')
+
+         requestAnimationFrame(function() {
+            setCardElementRect(getCardElement().getBoundingClientRect())
+
+            requestAnimationFrame(function() {
+               setCardIsPointerdown(true)
+               setCardStyle(getCardStyle().set({stateAnimated: 1}))
+               cardAnimate()
+               cardSetPointer(pointer)
+            })
+         })
+      })
    }
 
    function cardDeactivate() {
@@ -193,9 +199,7 @@ function Card(el) {
 
       setCardPointerdownlongTimeout(setTimeout(function() {
          ev.preventDefault()
-         setCardIsPointerdown(true)
-         cardActivate()
-         cardSetPointer(Pointer.getPointerFromMouseOrPointerEvent(ev))
+         cardActivate(Pointer.getPointerFromMouseOrPointerEvent(ev))
       }, getCardPointerdownlongTimeoutDuration()))
    }
 
