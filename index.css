@@ -13,6 +13,7 @@
    font-size: 20px;
    letter-spacing: -0.1px;
    font-weight: 600;
+   fill: currentColor;
 }
 
 .text:not(a) {
@@ -27,12 +28,20 @@
    letter-spacing: -1.0px;
 }
 
+.text-expand {
+   letter-spacing: 1px;
+}
+
 .text-small1 {
    font-size: 18px;
 }
 
 .text-small2 {
    font-size: 15px;
+}
+
+.text-small3 {
+   font-size: 11px;
 }
 
 .text-hoverwhite:hover {

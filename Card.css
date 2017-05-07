@@ -42,10 +42,10 @@
 .card-image img {
    pointer-events: none;
    position: absolute;
-   top: -1px;
-   left: -1px;
-   width: calc(100% * var(--columns, 1) + 2px);
-   height: calc(100% * var(--rows, 1) + 2px);
+   top: 0;
+   left: 0;
+   width: calc(100% * var(--columns, 1));
+   height: calc(100% * var(--rows, 1));
 }
 
 .card-image-active {
@@ -57,4 +57,36 @@
 .card-image-active img {
    transform: translate(calc(var(--frameTranslateX) * 1%),
                         calc(var(--frameTranslateY) * 1%));
+}
+
+.card-image-overlay-label {
+   position: absolute;
+   right: 10px;
+   bottom: 10px;
+   display: flex;
+   z-index: 1;
+   opacity: calc((1 - var(--stateAnimated, 0)));
+}
+
+.card-image-overlay:after {
+   --opacity-dampener: 0.85;
+   content: '';
+   display: block;
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1) 80%);
+   opacity: calc((1 - var(--stateAnimated, 0)) * var(--opacity-dampener));
+}
+
+.card-image-overlay-label-mask-circle {
+   animation: 3s card-image-overlay-label-mask-circle-slide infinite;
+}
+
+@keyframes card-image-overlay-label-mask-circle-slide {
+   to {
+      transform: translateX(220%);
+   }
 }
