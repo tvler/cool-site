@@ -158,7 +158,7 @@ function Card(el) {
       var deltaState = state - renderState
       var direction = deltaState === 0 ? 0 : deltaState / Math.abs(deltaState)
       var newRenderState = Math.min(
-         Math.max(renderState + direction / 15, 0),
+         Math.max(renderState + direction / Card.default.ANIMATION_FRAMES, 0),
          1
       )
 
@@ -235,6 +235,6 @@ function Card(el) {
 }
 
 Card.default = {
-   POINTER_DOWN_LONG_DURATION: 150,
-   ANIMATION_DURATION: 250
+   POINTER_DOWN_LONG_DURATION: 100,
+   ANIMATION_FRAMES: 15
 }
