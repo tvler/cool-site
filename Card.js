@@ -24,8 +24,6 @@ function Card(el) {
    })
    var cardStyle = getCardInitialStyle()
    var cardRenderStyle = getCardInitialStyle()
-   var cardAnimateFromStyle = getCardInitialStyle()
-   var cardAnimateFromTime = null
    var cardPointer = new Pointer(0, 0)
    var cardIsPointerdown = false
    var cardIsActive = false
@@ -54,12 +52,6 @@ function Card(el) {
 
    function getCardRenderStyle() { return cardRenderStyle.clone() }
    function setCardRenderStyle(s) { cardRenderStyle = s }
-
-   function getCardAnimateFromStyle() { return cardAnimateFromStyle.clone() }
-   function setCardAnimateFromStyle(s) { cardAnimateFromStyle = s }
-
-   function getCardAnimateFromTime() { return cardAnimateFromTime }
-   function setCardAnimateFromTime(t) { cardAnimateFromTime = t }
 
    function getCardPointer() { return cardPointer }
    function setCardPointer(pointer) { cardPointer = pointer }
