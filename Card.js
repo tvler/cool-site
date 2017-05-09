@@ -15,7 +15,7 @@ function Card(el) {
    var cardElementRect = null
    var cardInitialStyle = new Style({
       frame: 0,
-      stateAnimated: 0,
+      state: 0,
       pointerX: .5,
       pointerY: .5,
       width: getCardStyleWidth,
@@ -24,13 +24,12 @@ function Card(el) {
    })
    var cardStyle = getCardInitialStyle()
    var cardRenderStyle = getCardInitialStyle()
-   var cardAnimating = false
-   var cardAnimateDuration = 250
    var cardAnimateFromStyle = getCardInitialStyle()
    var cardAnimateFromTime = null
+   var cardPointer = new Pointer(0, 0)
    var cardIsPointerdown = false
+   var cardIsActive = false
    var cardPointerdownlongTimeout = 0
-   var cardPointerdownlongTimeoutDuration = 150
    var cardSpritesheetRows = getCardElement().dataset.spritesheetRows
    var cardSpritesheetColumns = getCardElement().dataset.spritesheetColumns
    var cardSpritesheetFrames = getCardElement().dataset.spritesheetFrames
@@ -56,24 +55,23 @@ function Card(el) {
    function getCardRenderStyle() { return cardRenderStyle.clone() }
    function setCardRenderStyle(s) { cardRenderStyle = s }
 
-   function getCardAnimating() { return cardAnimating }
-   function setCardAnimating(boolean) { cardAnimating = boolean }
-
-   function getCardAnimateDuration() { return cardAnimateDuration }
-
    function getCardAnimateFromStyle() { return cardAnimateFromStyle.clone() }
    function setCardAnimateFromStyle(s) { cardAnimateFromStyle = s }
 
    function getCardAnimateFromTime() { return cardAnimateFromTime }
    function setCardAnimateFromTime(t) { cardAnimateFromTime = t }
 
+   function getCardPointer() { return cardPointer }
+   function setCardPointer(pointer) { cardPointer = pointer }
+
    function getCardIsPointerdown() { return cardIsPointerdown }
    function setCardIsPointerdown(boolean) { cardIsPointerdown = boolean }
 
+   function getCardIsActive() { return cardIsActive }
+   function setCardIsActive(boolean) { cardIsActive = boolean }
+
    function getCardPointerdownlongTimeout() { return cardPointerdownlongTimeout }
    function setCardPointerdownlongTimeout(int) { cardPointerdownlongTimeout = int }
-
-   function getCardPointerdownlongTimeoutDuration() { return cardPointerdownlongTimeoutDuration }
 
    function getCardSpritesheetRows() { return cardSpritesheetRows }
 
@@ -82,7 +80,7 @@ function Card(el) {
    function getCardSpritesheetFrames() { return cardSpritesheetFrames }
 
    function getCardStyleWithPointer(p) {
-      var dampenedPointer = p.dampen(getCardElementRect())
+      var dampenedPointer = Pointer.dampen(p, getCardElementRect())
       var amountFromLeft = (dampenedPointer.clientX - getCardElementRect().left) / getCardElementRect().width
       var amountFromTop = (dampenedPointer.clientY - getCardElementRect().top) / getCardElementRect().height
 
@@ -92,6 +90,7 @@ function Card(el) {
       )
 
       return getCardStyle().set({
+         state: 1,
          pointerX: amountFromLeft,
          pointerY: amountFromTop,
          frame: frame
@@ -112,52 +111,6 @@ function Card(el) {
 
    // Functions
 
-   function cardAnimate() {
-      setCardAnimateFromTime(performance.now())
-      setCardAnimateFromStyle(getCardRenderStyle())
-
-      if (!getCardAnimating()) {
-         setCardAnimating(true)
-         cardAnimateLoop()
-      }
-   }
-
-   function cardAnimateLoop() {
-      requestAnimationFrame(function() {
-         var fromStyle = getCardAnimateFromStyle()
-         var fromTime = getCardAnimateFromTime()
-         var duration = getCardAnimateDuration()
-         var currentTime = Math.min(performance.now(), fromTime + duration)
-         var amountCompleted = (currentTime - fromTime) / duration
-
-         setCardRenderStyle(getCardStyle()
-            .minus(fromStyle)
-            .times(amountCompleted)
-            .plus(fromStyle)
-         )
-         cardRender()
-
-         if (amountCompleted < 1) {
-            cardAnimateLoop()
-         } else {
-            setCardAnimating(false)
-         }
-      })
-   }
-
-   function cardRender() {
-      getCardElementStyleNode().cssText = getCardRenderStyle().getCssText()
-   }
-
-   function cardSetPointer(t) {
-      setCardStyle(getCardStyleWithPointer(t))
-
-      if (!getCardAnimating()) {
-         setCardRenderStyle(getCardStyle())
-         cardRender()
-      }
-   }
-
    function cardInitialize() {
       loadMedia(getCardElementImageInactive())
       loadMedia(getCardElementImageActive())
@@ -167,25 +120,64 @@ function Card(el) {
    }
 
    function cardActivate(pointer) {
-      requestAnimationFrame(function() {
-         getCardElement().classList.add('card-container-active')
+      if (!getCardIsActive()) {
+         setCardIsActive(true)
 
          requestAnimationFrame(function() {
-            setCardElementRect(getCardElement().getBoundingClientRect())
+            getCardElement().classList.add('card-container-active')
 
             requestAnimationFrame(function() {
-               setCardIsPointerdown(true)
-               setCardStyle(getCardStyle().set({stateAnimated: 1}))
-               cardAnimate()
-               cardSetPointer(pointer)
+               document.body.offsetWidth
+
+               requestAnimationFrame(function() {
+                  setCardElementRect(getCardElement().getBoundingClientRect())
+                  requestCardAnimationFrame()
+               })
             })
          })
-      })
+      }
    }
 
    function cardDeactivate() {
-      setCardStyle(getCardInitialStyle())
-      cardAnimate()
+      setCardIsActive(false)
+      getCardElement().classList.remove('card-container-active')
+   }
+
+   function requestCardAnimationFrame() {
+      requestAnimationFrame(cardAnimate)
+   }
+
+   function cardAnimate() {
+      var style = getCardIsPointerdown() ?
+       getCardStyleWithPointer(getCardPointer()) : getCardInitialStyle()
+
+      setCardStyle(style)
+
+      var state = getCardStyle().style.state
+      var renderState = getCardRenderStyle().style.state
+      var deltaState = state - renderState
+      var direction = deltaState === 0 ? 0 : deltaState / Math.abs(deltaState)
+      var newRenderState = Math.min(
+         Math.max(renderState + direction / 15, 0),
+         1
+      )
+
+      setCardRenderStyle(getCardStyleWithPointer(getCardPointer())
+         .minus(getCardInitialStyle())
+         .times(newRenderState)
+         .plus(getCardInitialStyle())
+      )
+      cardRender()
+
+      if (newRenderState === 0) {
+         cardDeactivate()
+      } else {
+         requestCardAnimationFrame()
+      }
+   }
+
+   function cardRender() {
+      getCardElementStyleNode().cssText = getCardRenderStyle().getCssText()
    }
 
    // Listeners
@@ -197,10 +189,14 @@ function Card(el) {
          ev.preventDefault()
       }
 
+      setCardPointer(Pointer.getPointerFromMouseOrTouchEvent(ev))
+
       setCardPointerdownlongTimeout(setTimeout(function() {
          ev.preventDefault()
-         cardActivate(Pointer.getPointerFromMouseOrPointerEvent(ev))
-      }, getCardPointerdownlongTimeoutDuration()))
+
+         setCardIsPointerdown(true)
+         cardActivate()
+      }, Card.default.POINTER_DOWN_LONG_DURATION))
    }
 
    function cardPointermove(ev) {
@@ -208,7 +204,8 @@ function Card(el) {
 
       if (getCardIsPointerdown()) {
          ev.preventDefault()
-         cardSetPointer(Pointer.getPointerFromMouseOrPointerEvent(ev))
+
+         setCardPointer(Pointer.getPointerFromMouseOrTouchEvent(ev))
       }
    }
 
@@ -217,8 +214,8 @@ function Card(el) {
 
       if (getCardIsPointerdown()) {
          ev.preventDefault()
+
          setCardIsPointerdown(false)
-         cardDeactivate()
       }
    }
 
@@ -235,4 +232,9 @@ function Card(el) {
    // Public object
 
    return {}
+}
+
+Card.default = {
+   POINTER_DOWN_LONG_DURATION: 150,
+   ANIMATION_DURATION: 250
 }
