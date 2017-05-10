@@ -26,6 +26,7 @@ function Card(el) {
    var cardRenderStyle = getCardInitialStyle()
    var cardPointer = new Pointer(0, 0)
    var cardIsPointerdown = false
+   var cardRequestActivatePromise = null
    var cardIsActive = false
    var cardPointerdownlongTimeout = 0
    var cardSpritesheetRows = getCardElement().dataset.spritesheetRows
@@ -58,6 +59,9 @@ function Card(el) {
 
    function getCardIsPointerdown() { return cardIsPointerdown }
    function setCardIsPointerdown(boolean) { cardIsPointerdown = boolean }
+
+   function getCardRequestActivatePromise() { return cardRequestActivatePromise }
+   function setCardRequestActivatePromise(promise) { cardRequestActivatePromise = promise }
 
    function getCardIsActive() { return cardIsActive }
    function setCardIsActive(boolean) { cardIsActive = boolean }
@@ -105,15 +109,42 @@ function Card(el) {
 
    function cardInitialize() {
       loadMedia(getCardElementImageInactive())
-      loadMedia(getCardElementImageActive())
-      getCardElement().oncontextmenu = function(ev) {
-         return false
-      }
+      getCardElement().oncontextmenu = function(ev) { return false }
+      getCardElement().addEventListener('touchstart', cardPointerdown)
+      getCardElement().addEventListener('mousedown', cardPointerdown)
+      window.addEventListener('mousemove', cardPointermove)
+      getCardElement().addEventListener('touchmove', cardPointermove)
+      getCardElement().addEventListener('touchend', cardPointerup)
+      getCardElement().addEventListener('mouseenter', cardMouseEnter)
+      window.addEventListener('mouseup', cardPointerup)
    }
 
-   function cardActivate(pointer) {
+   function cardRequestActivate() {
+      if (getCardRequestActivatePromise() === null) {
+         setCardRequestActivatePromise(new Promise(function(resolve) {
+            loadMedia(getCardElementImageActive(), resolve)
+         }))
+      }
+
+      cardHintActivate()
+
+      return getCardRequestActivatePromise()
+   }
+
+   function cardHintActivate() {
+      document.querySelectorAll('.card-container-hint-active').forEach(function(hintedCardElement) {
+         if (hintedCardElement !== getCardElement()) {
+            hintedCardElement.classList.remove('card-container-hint-active')
+         }
+      })
+
+      getCardElement().classList.add('card-container-hint-active')
+   }
+
+   function cardActivate() {
       if (!getCardIsActive()) {
          setCardIsActive(true)
+         Card.isAnyCardActive = true
 
          requestAnimationFrame(function() {
             getCardElement().classList.add('card-container-active')
@@ -132,6 +163,7 @@ function Card(el) {
 
    function cardDeactivate() {
       setCardIsActive(false)
+      Card.isAnyCardActive = true
       getCardElement().classList.remove('card-container-active')
    }
 
@@ -181,13 +213,14 @@ function Card(el) {
          ev.preventDefault()
       }
 
+      cardRequestActivate()
       setCardPointer(Pointer.getPointerFromMouseOrTouchEvent(ev))
 
       setCardPointerdownlongTimeout(setTimeout(function() {
          ev.preventDefault()
 
          setCardIsPointerdown(true)
-         cardActivate()
+         cardRequestActivate().then(cardActivate)
       }, Card.default.POINTER_DOWN_LONG_DURATION))
    }
 
@@ -211,14 +244,14 @@ function Card(el) {
       }
    }
 
-   getCardElement().addEventListener('touchstart', cardPointerdown)
-   getCardElement().addEventListener('mousedown', cardPointerdown)
-   window.addEventListener('mousemove', cardPointermove)
-   getCardElement().addEventListener('touchmove', cardPointermove)
-   getCardElement().addEventListener('touchend', cardPointerup)
-   window.addEventListener('mouseup', cardPointerup)
+   function cardMouseEnter(ev) {
+      if (!Card.isAnyCardActive) {
+         cardRequestActivate()
+      }
+   }
 
    // Initialize
+
    cardInitialize()
 
    // Public object
@@ -227,6 +260,8 @@ function Card(el) {
 }
 
 Card.default = {
-   POINTER_DOWN_LONG_DURATION: 100,
-   ANIMATION_FRAMES: 15
+   POINTER_DOWN_LONG_DURATION: 75,
+   ANIMATION_FRAMES: 10
 }
+
+Card.isAnyCardActive = false

@@ -12,6 +12,31 @@
 .card {
    --rotate-dampener: 0.1;
    pointer-events: none;
+   transform: translateZ(calc(var(--state) * 1px))
+              rotateX(calc((var(--pointerY) - 0.5) * var(--rotate-dampener) * 1deg))
+              rotateY(calc((0.5 - var(--pointerX)) * var(--rotate-dampener) * 1deg));
+}
+
+.card:before, .card:after {
+   content: '';
+   display: block;
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+}
+
+.card:before {
+   --opacity-dampener: 0.9;
+   z-index: 1;
+   background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 30%, rgba(0,0,0,0));
+   opacity: calc((1 - var(--state, 0)) * var(--opacity-dampener));
+}
+
+.card:after {
+   box-shadow: 0 0 20px rgba(0, 0, 0, .6);
+   opacity: var(--state, 0)
 }
 
 .card-image {
@@ -34,7 +59,6 @@
 }
 
 .card-image-active {
-   box-shadow: 0 0 20px rgba(0, 0, 0, .6);
    contain: strict;
 }
 
@@ -49,20 +73,7 @@
    bottom: 10px;
    display: flex;
    z-index: 1;
-   opacity: calc((1 - var(--state, 0)));
-}
-
-.card-image-overlay:after {
-   --opacity-dampener: 0.9;
-   content: '';
-   display: block;
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 30%, rgba(0,0,0,0));
-   opacity: calc((1 - var(--state, 0)) * var(--opacity-dampener));
+   opacity: calc(1 - var(--state, 0));
 }
 
 .card-image-overlay-label-mask-circle {
@@ -78,13 +89,22 @@
 /* States */
 .card-container-active .card {
    will-change: transform;
-   transform: translateZ(calc(var(--state) * 1px))
-              rotateX(calc((var(--pointerY) - 0.5) * var(--rotate-dampener) * 1deg))
-              rotateY(calc((0.5 - var(--pointerX)) * var(--rotate-dampener) * 1deg));
 }
 
-.card-container:not(.card-container-active) .card-image-active {
+.card-container:not(.card-container-active) .card {
+   transform: none;
+}
+
+.card-image-active {
    opacity: 0;
+}
+
+.card-container-hint-active .card-image-active {
+   opacity: 0.001;
+}
+
+.card-container-active .card-image-active {
+   opacity: 1 !important;
 }
 
 .card-container-active .card-image-active img {
