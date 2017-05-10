@@ -2,7 +2,7 @@
 ---
 
 (function() {
-   {% include_relative Card.js %}
+   {% include_relative Card/Card.js %}
 
    function init() {
       document.querySelectorAll('a').forEach(function(a) {

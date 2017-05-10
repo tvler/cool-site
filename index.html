@@ -1,4 +1,19 @@
 ---
+projects:
+- name: Black Friday – iFixit
+  attribute: black-friday-ifixit
+  description: iFixit’s Black Friday popup shop
+  aspect: 58.7%
+  frames: 90
+  rows: 9
+  columns: 10
+- name: Black Friday – iFixit
+  attribute: black-friday-ifixit
+  description: iFixit’s Black Friday popup shop
+  aspect: 58.7%
+  frames: 90
+  rows: 9
+  columns: 10
 ---
 
 <!doctype html>
@@ -27,104 +42,22 @@
       <a href="https://www.are.na/tyler-deitz" class="text text-small1 text-hoverwhite text-gray layout-offleft-1">Are.na</a>
    </div>
 
-   <div class="layout-row layout-offtop-4">
-      <span class="text">Black Friday – iFixit</span>
-   </div>
-
-   <div class="layout-row layout-offtop-1">
-      <span class="text text-small2 text-gray text-thin">iFixit’s Black Friday popup shop</span>
-   </div>
-
-   <div class="layout-row layout-offtop-3">
-      {%
-         include_relative Card.html
-         media="black-friday-ifixit-desktop"
-         aspect="58.7%"
-         frames="90"
-         rows="9"
-         columns="10"
-      %}
-   </div>
-
-   <div class="layout-row layout-offtop-4">
-      <span class="text">Pro Tech Toolkit – iFixit</span>
-   </div>
-
-   <div class="layout-row layout-offtop-1">
-      <span class="text text-small2 text-gray text-thin">iFixit’s Pro Tech Toolkit featured product page</span>
-   </div>
-
-   <div class="layout-row layout-offtop-3">
-
-   </div>
-
-   <div class="layout-row layout-offtop-4">
-      <span class="text">360° – iFixit</span>
-   </div>
-
-   <div class="layout-row layout-offtop-1">
-      <span class="text text-small2 text-gray text-thin">iFixit’s 360° product viewer</span>
-   </div>
-
-   <div class="layout-row layout-offtop-3">
-
-   </div>
-
-   <div class="layout-row layout-offtop-4">
-      <span class="text">Checkout – iFixit</span>
-   </div>
-
-   <div class="layout-row layout-offtop-1">
-      <span class="text text-small2 text-gray text-thin">iFixit's payment interface</span>
-   </div>
-
-   <div class="layout-row layout-offtop-3">
-      <div class="media">
-
+   {% for project in page.projects %}
+      <div class="layout-row layout-offtop-4">
+         <span class="text">{{ project.name }}</span>
       </div>
-   </div>
 
-   <div class="layout-row layout-offtop-4">
-      <span class="text">Components – iFixit</span>
-   </div>
-
-   <div class="layout-row layout-offtop-1">
-      <span class="text text-small2 text-gray text-thin">iFixit's system design</span>
-   </div>
-
-   <div class="layout-row layout-offtop-3">
-      <div class="media">
-
+      <div class="layout-row layout-offtop-1">
+         <span class="text text-small2 text-gray text-thin">{{ project.description }}</span>
       </div>
-   </div>
 
-   <div class="layout-row layout-offtop-4">
-      <span class="text">Lazy Progressive Enhancement</span>
-   </div>
-
-   <div class="layout-row layout-offtop-1">
-      <span class="text text-small2 text-gray text-thin">Progressively enhanced lazy media loader</span>
-   </div>
-
-   <div class="layout-row layout-offtop-3">
-      <div class="media">
-
+      <div class="layout-row layout-offtop-3">
+         {%
+            include_relative Card/Card.html
+            project=project
+         %}
       </div>
-   </div>
-
-   <div class="layout-row layout-offtop-4">
-      <span class="text">Pizza Club</span>
-   </div>
-
-   <div class="layout-row layout-offtop-1">
-      <span class="text text-small2 text-gray text-thin">Hackathon app awarded Best Design</span>
-   </div>
-
-   <div class="layout-row layout-offtop-2 layout-offbottom-4">
-      <div class="media">
-
-      </div>
-   </div>
+   {% endfor %}
 
 </div>
 

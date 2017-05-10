@@ -3,8 +3,8 @@ function Card(el) {
    'use strict'
 
    {% include_relative submodule/lazy-progressive-enhancement/lazy-progressive-enhancement.min.js %}
-   {% include_relative Pointer.js %}
-   {% include_relative Style.js %}
+   {% include_relative Card/Pointer.js %}
+   {% include_relative Card/Style.js %}
 
    // Variables
 
@@ -163,7 +163,7 @@ function Card(el) {
 
    function cardDeactivate() {
       setCardIsActive(false)
-      Card.isAnyCardActive = true
+      Card.isAnyCardActive = false
       getCardElement().classList.remove('card-container-active')
    }
 

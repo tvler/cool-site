@@ -2,7 +2,7 @@
 ---
 
 {% include_relative reset.css %}
-{% include_relative Card.css %}
+{% include_relative Card/Card.css %}
 
 /* Typography */
 

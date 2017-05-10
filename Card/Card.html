@@ -1,0 +1,36 @@
+<div class="card-container"
+ data-spritesheet-rows="{{ include.project.rows }}"
+ data-spritesheet-columns="{{ include.project.columns }}"
+ data-spritesheet-frames="{{ include.project.frames }}"
+ >
+   <div class="card" style="padding-bottom: {{ include.project.aspect }};">
+      <figure class="card-image card-image-inactive">
+         <noscript class="lazyload">
+            <img
+             src="image/{{ include.project.attribute }}/000-2x.png"
+             srcset="image/{{ include.project.attribute }}/000-1x.png 1x,
+                     image/{{ include.project.attribute }}/000-2x.png 2x"
+            >
+         </noscript>
+      </figure>
+
+      <figure class="card-image card-image-active">
+         <noscript class="lazyload">
+            <img src="image/{{ include.project.attribute }}/grid.jpg"
+             style="
+               --columns: {{ include.project.columns }};
+               --rows: {{ include.project.rows }};
+             ">
+         </noscript>
+      </figure>
+
+      <figure class="card-image card-image-overlay">
+         <div class="card-image-overlay-label">
+            {%
+               include_relative Card/click-drag.svg
+               attribute=include.project.attribute
+            %}
+         </div>
+      </figure>
+   </div>
+</div>
