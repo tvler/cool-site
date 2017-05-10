@@ -259,6 +259,8 @@ function Card(el) {
    return {}
 }
 
+// Static
+
 Card.default = {
    POINTER_DOWN_LONG_DURATION: 75,
    ANIMATION_FRAMES: 10

@@ -87,7 +87,17 @@
 }
 
 /* States */
-.card-container-active .card {
+.card-image-active {
+   opacity: 0;
+}
+
+.card-container-active .card-image-active {
+   opacity: 1 !important;
+}
+
+/* Perf shit */
+.card-container-active .card,
+.card-container-hint-active .card {
    will-change: transform;
 }
 
@@ -95,22 +105,11 @@
    transform: none;
 }
 
-.card-image-active {
-   opacity: 0;
-}
-
 .card-container-hint-active .card-image-active {
    opacity: 0.001;
 }
 
-.card-container-active .card-image-active {
-   opacity: 1 !important;
-}
-
-.card-container-active .card-image-active img {
+.card-container-active .card-image-active img,
+.card-container-hint-active .card-image-active img {
    will-change: transform;
-}
-
-.card-container-active .card-image-overlay-label {
-   will-change: opacity;
 }

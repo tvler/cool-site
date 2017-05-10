@@ -7,6 +7,7 @@
       <figure class="card-image card-image-inactive">
          <noscript class="lazyload">
             <img
+             alt="{{ include.project.name }} project image"
              src="Card/image/{{ include.project.attribute }}/000-2x.png"
              srcset="Card/image/{{ include.project.attribute }}/000-1x.png 1x,
                      Card/image/{{ include.project.attribute }}/000-2x.png 2x"
@@ -16,7 +17,9 @@
 
       <figure class="card-image card-image-active">
          <noscript class="lazyload">
-            <img src="Card/image/{{ include.project.attribute }}/grid.jpg"
+            <img
+             alt="{{ include.project.name }} project animation spritesheet"
+             src="Card/image/{{ include.project.attribute }}/grid.jpg"
              style="
                --columns: {{ include.project.columns }};
                --rows: {{ include.project.rows }};
